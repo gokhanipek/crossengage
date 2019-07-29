@@ -7,5 +7,5 @@ export class GetQuestion {
 export class GetAnswers {
   static readonly type = '[Quiz] Get answers';
   static readonly desc = 'get answers';
-  constructor(public category: string){}
+  constructor(public payload: any){}
 }

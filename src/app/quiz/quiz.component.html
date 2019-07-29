@@ -1,0 +1,13 @@
+<div class="jumbotron mt-5 text-center">
+<form>
+    <fieldset class="form-group">
+      <legend>{{ question.text }}</legend>
+      <div class="form-check" *ngFor="let answer of answers">
+        <label class="form-check-label">
+          <input type="radio" class="form-check-input" name="optionsRadios" id="optionsRadios1" value="option1">
+          {{  answer.label }}
+        </label>
+      </div>
+    </fieldset>
+</form>
+</div>

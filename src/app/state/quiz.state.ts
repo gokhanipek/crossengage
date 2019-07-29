@@ -23,6 +23,11 @@ export class QuizState {
         return state.question;
     }
 
+    @Selector()
+    static getCategory(state: QuestionStateModel) {
+        return state.question.category
+    }
+
     @Action(GetQuestion)
     getQuestion({getState, setState}: StateContext<QuestionStateModel>) {
         return this.quizService.getQuestion().pipe(tap((result) => {
@@ -40,12 +45,12 @@ export class QuizState {
     }
 
     @Action(GetAnswers)
-    getAnswers({getState, setState}: StateContext<QuestionStateModel>, category: string) {
-        return this.quizService.getQuestion().pipe(tap((result) => {
+    getAnswers({getState, setState}: StateContext<QuestionStateModel>, {payload}: GetAnswers) {
+        return this.quizService.getAnswers(payload).pipe(tap((payload) => {
             const state = getState();
             setState({
                 ...state,
-                answers: category,
+                answers: payload,
             });
         }));
     }
