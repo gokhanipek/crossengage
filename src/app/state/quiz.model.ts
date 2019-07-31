@@ -4,3 +4,8 @@ export interface Question {
   answerId: string;
   category: string;
 }
+
+export interface Answers {
+  id: string;
+  label: string;
+}

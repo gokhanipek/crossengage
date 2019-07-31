@@ -3,9 +3,10 @@ import { Select, Store, ofActionDispatched, ofActionCompleted } from '@ngxs/stor
 import { Observable } from 'rxjs';
 import { QuizState } from './../state/quiz.state';
 import { GetQuestion, GetAnswers } from './../state/quiz.action';
-import { Question } from './../state/quiz.model';
+import { Question, Answers } from './../state/quiz.model';
 
 import { FormBuilder, FormGroup, FormArray } from '@angular/forms';
+import { filter, take, scan, reduce } from 'rxjs/operators';
 
 
 @Component({
@@ -22,22 +23,27 @@ export class QuizComponent implements OnInit {
   question$: Observable<Question>
 
   @Select(QuizState.getAnswers)
-  answers$: Observable<any>
+  answers$: Observable<string[]>
 
   @Select(QuizState.getCategory)
   category$: Observable<string>
 
-  constructor(private store: Store, private formBuilder: FormBuilder){
+  constructor(private store: Store){
     this.store.dispatch(new GetQuestion());
-    // this.store.dispatch(new GetAnswers('PIRATES'))
-    this.answers$.subscribe(answers => this.answers = answers);
+    // this.answers$.subscribe(answers => this.answers = answers);
     this.question$.subscribe(val => this.question = val);
+    this.answers$.pipe(reduce( (acc, cur) => [...acc, cur.length < 4],[] )).subscribe(console.warn)
+
+    // .subscribe(answers => {
+    //   this.answers = answers;
+    //   console.warn(this.answers);
+    // });
   }
 
 
 
   ngOnInit(){
-    this.category$.subscribe(val => 
+    this.category$.subscribe(val =>
       this.store.dispatch(new GetAnswers(val))
     )
 
